@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">My_first_application</string>
+    <string name="choise_excursion">excursion</string>
+    <string name="choise_quest">quest</string>
+    <string name="excursion_choise_go">go</string>
+    <string name="excursion_choise_quest">make</string>
+    <string name="quest_choise_go">go</string>
+    <string name="quest_choise_make">make</string>
+    <string name="title_activity_main_map">Map</string>
+</resources>
