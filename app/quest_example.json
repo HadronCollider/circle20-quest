@@ -1,0 +1,9 @@
+{
+  "type": "quest",
+  "id": 10000,
+  "name": "Test",
+  "mark": 5,
+  "cost": "free",
+  "text": "test",
+  "Informatiom_for_application": [{"position": 1, "radius": 5, "geolocation": "130.05 80.6", "text": "test_text"}]
+}
