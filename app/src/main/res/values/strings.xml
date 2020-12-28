@@ -7,4 +7,10 @@
     <string name="quest_choise_go">go</string>
     <string name="quest_choise_make">make</string>
     <string name="title_activity_main_map">Map</string>
+    <string name="name_excursion">Name</string>
+    <string name="value_of_mark_excursion">Value</string>
+    <string name="cost_of_excursion">Cost</string>
+    <string name="short_discription_of_excursion">Short discription</string>
+    <string name="start">Start</string>
+    <string name="go_this_excursion">Go this excursion</string>
 </resources>
