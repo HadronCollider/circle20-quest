@@ -10,22 +10,21 @@
         android:id="@+id/button4"
         android:layout_width="140dp"
         android:layout_height="80dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginBottom="100dp"
         android:text="@string/excursion_choise_go"
         app:layout_constraintBottom_toTopOf="@+id/button5"
-        app:layout_constraintStart_toStartOf="@+id/button5"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.376" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button5"
         android:layout_width="140dp"
         android:layout_height="80dp"
+        android:layout_marginBottom="225dp"
         android:text="@string/excursion_choise_quest"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.625" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

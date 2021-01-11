@@ -8,19 +8,21 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="143dp"
+        android:layout_width="200dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="100dp"
         android:text="@string/choise_excursion"
+        app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="320dp"
+        android:layout_width="200dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="250dp"
         android:text="@string/choise_quest"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -13,4 +13,5 @@
     <string name="short_discription_of_excursion">Short discription</string>
     <string name="start">Start</string>
     <string name="go_this_excursion">Go this excursion</string>
+    <string name="go_this_quest">Go this quest</string>
 </resources>
