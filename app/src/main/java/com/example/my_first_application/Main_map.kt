@@ -40,13 +40,14 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return
         }
+
+        val SPB = LatLng(59.57, 30.19)
+        mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
         map.isMyLocationEnabled = true
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
-        val SPB = LatLng(59.57, 30.19)
-        mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
 
     }
 
@@ -57,8 +58,11 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
     }
 
     override fun onMyLocationButtonClick(): Boolean {
+        val SPB = LatLng(59.57, 30.19)
+        Toast.makeText(this, "Rasstoyanie is 8", Toast.LENGTH_LONG).show()
         return false
     }
+
 
 
 

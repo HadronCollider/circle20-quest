@@ -8,7 +8,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.My_first_application">
-        <activity android:name=".ChoiseOfQuest"></activity>
+        <activity android:name=".CkeckingOfDataBase"></activity>
+        <activity android:name=".ChoiseOfQuest" />
         <activity android:name=".choise_of_excursion" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

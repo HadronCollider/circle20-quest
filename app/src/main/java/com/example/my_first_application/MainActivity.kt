@@ -13,5 +13,9 @@ class MainActivity : AppCompatActivity() {
             val intent= Intent(this, choise_excurshion_or_quest::class.java)
             startActivity(intent)
         }
+        button8.setOnClickListener {
+            val intent= Intent(this, CkeckingOfDataBase::class.java)
+            startActivity(intent)
+        }
     }
 }
