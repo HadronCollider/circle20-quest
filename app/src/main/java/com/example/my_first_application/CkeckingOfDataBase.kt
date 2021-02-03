@@ -11,6 +11,9 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import android.content.ContentValues.TAG
+import android.content.Context
+import android.net.ConnectivityManager
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_ckecking_of_data_base.*
 
 
@@ -48,21 +51,8 @@ class CkeckingOfDataBase : AppCompatActivity() {
         val storageRef = storage.reference
         val db = Firebase.firestore
 
-        val testNote = hashMapOf(
-                "text" to "note"
-        )
-        //val test1="string"
-
-// Add a new document with a generated ID
-        db.collection("testing")
-                .add(testNote)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                }
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "Error adding document", e)
-                }
-        val getting=db.collection("testing").get()
+        val getting=db.collection("testing").document("firstTest")
+        //val got = mapOf(getting)
         var name = findViewById<TextView>(R.id.textView3)
         name.text = "${getting}"
 
@@ -79,15 +69,22 @@ class CkeckingOfDataBase : AppCompatActivity() {
                         Log.w(TAG, "Error getting documents.", task.exception)
                     }
                 }
-        button9.setOnClickListener {
-            var textOf =findViewById<TextView>(R.id.editTextTextPersonName)
-            var text=textOf.getText().toString()
-            val TestText = hashMapOf(
-                    "text" to text
-            )
-            db.collection("testing")
-                    .add(TestText)
-        }
 
+        fun amIConnected(): Boolean {
+            val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected
+        }
+        button9.setOnClickListener {
+            if (!amIConnected()) {
+                Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
+            } else {
+                var textOf = findViewById<TextView>(R.id.editTextTextPersonName)
+                var text = textOf.getText().toString()
+                val TestText = hashMapOf(
+                        "text" to text
+                )
+            }
+        }
     }
 }
