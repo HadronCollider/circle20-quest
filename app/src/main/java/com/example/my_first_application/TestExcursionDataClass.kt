@@ -2,11 +2,11 @@ package com.example.my_first_application
 
 import com.google.gson.Gson
 
-data class TestExcursionDataClass(val type:String,
+public data class TestExcursionDataClass(val type:String,
                                   val id:Int,
                                   var name:String,
                                   var mark:Int,
-                                  var cost:Int,
+                                  var cost:Any,
                                   var text:String,
                                   var InformationForApplication:String)
 

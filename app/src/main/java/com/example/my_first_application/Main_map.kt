@@ -3,6 +3,7 @@ package com.example.my_first_application
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -18,7 +19,9 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.protobuf.DescriptorProtos
+import com.google.android.gms.maps.model.Polygon
+import com.google.android.gms.maps.model.PolygonOptions
+import kotlinx.android.synthetic.main.activity_main_map.*
 
 
 class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationClickListener, GoogleMap.OnMyLocationButtonClickListener {
@@ -68,7 +71,7 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
 
     }
     fun amIConnected(): Boolean {
-        val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager = this.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetworkInfo = connectivityManager.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
@@ -109,6 +112,7 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
     override fun onMapReady(map: GoogleMap) {
         Log.d("TESTEST", "tetette")
         mMap = map
+        //if we have permission
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                         this,
                         Manifest.permission.ACCESS_COARSE_LOCATION
@@ -135,14 +139,14 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
     }
 
 
-
+    //if press on button in icon of user
     override fun onMyLocationClick(location: Location) {
+
+        //if we have permission
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                         this,
                         Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
             return
         }
         if(!amIConnected()){
@@ -161,8 +165,21 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
 
 
     }
+    //val  triangleCoords = arrayListOf(
+    // [25.774, 80.19],
+    //[18.466, 66.118],
+    //[32.321, 64.757])
 
+    // val quadro= Polygon(triangleCoords)
+    //val polygon = Polygon(PolygonOptions()
+            //.add(LatLng(0.0,0.0), LatLng(0.0, 60.0), LatLng(60.0, 0.0), LatLng(60.0, 60.0))
+            //.strokeColor(Color.RED)
+            //.fillColor(Color.BLUE))
+
+
+    //if press on button in top right corner
     override fun onMyLocationButtonClick(): Boolean {
+        //if we have permission
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                         this,
                         Manifest.permission.ACCESS_COARSE_LOCATION
@@ -171,22 +188,23 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
             //    ActivityCompat#requestPermissions
             return false
         }
-        if(!amIConnected()){
+        if(!amIConnected()){//if user have internete
             Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
         }
-        else {
+        else {//
             val spb = Location("")
             spb.latitude = 59.57
             spb.longitude = 30.19
             val loc = fusedLocationClient.lastLocation.addOnSuccessListener { res_loc: Location? ->
                 if (res_loc != null) {
                     Toast.makeText(this, "Rasstoyanie is ${res_loc.distanceTo(spb) / 1000} km", Toast.LENGTH_LONG).show()
+                    //if (containsLocation(res_loc.longitude, res_loc.latitude, polygon)) Toast.makeText(this, "You are in polygon", Toast.LENGTH_LONG).show()
+                    //else Toast.makeText(this, "You arent in polygon", Toast.LENGTH_LONG).show()
                 }
             }
         }
         return false
     }
-
 
 
 

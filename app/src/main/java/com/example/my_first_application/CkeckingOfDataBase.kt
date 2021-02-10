@@ -50,25 +50,46 @@ class CkeckingOfDataBase : AppCompatActivity() {
         val storage = Firebase.storage
         val storageRef = storage.reference
         val db = Firebase.firestore
-
-        val getting=db.collection("testing").document("firstTest")
-        //val got = mapOf(getting)
         var name = findViewById<TextView>(R.id.textView3)
-        name.text = "${getting}"
-
-
-
-        db.collection("testing")
+        //name.text = "${getting}"
+        val getting=db.collection("testing").document("TestExcursion1")
                 .get()
-                .addOnCompleteListener { task ->
+                .addOnCompleteListener{ task ->
                     if (task.isSuccessful) {
-                        for (document in task.result) {
-                            Log.d(TAG, document.id + " => " + document.data)
+                            val test= task.result.data
+                        if (test != null) {
+                            for (i in test){
+                                if (i.key=="name") testExcursion.name=i.value.toString()
+                                if (i.key=="cost") testExcursion.cost=i.value
+                                if (i.key=="discription") name.text="${i.value}"
+
+
+                            }
                         }
-                    } else {
-                        Log.w(TAG, "Error getting documents.", task.exception)
-                    }
+                        }
+
                 }
+
+        //val got = mapOf(getting)
+
+
+
+
+        //db.collection("testing")
+          //      .get()
+            //    .addOnCompleteListener { task ->
+              //      if (task.isSuccessful) {
+                //        for (document in task.result) {
+                  //          Log.d(TAG, document.id + " => " + document.data)
+                    //        val testExcursion= document.data
+                      //      for (i in testExcursion){
+                        //        name.text="${i}"
+                          //  }
+                        //}
+                    //} else {
+                      //  Log.w(TAG, "Error getting documents.", task.exception)
+                    //}
+                //}
 
         fun amIConnected(): Boolean {
             val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
