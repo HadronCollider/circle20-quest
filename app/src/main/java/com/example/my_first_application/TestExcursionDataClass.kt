@@ -1,5 +1,6 @@
 package com.example.my_first_application
 
+import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 
 public data class TestExcursionDataClass(val type:String,
@@ -8,7 +9,8 @@ public data class TestExcursionDataClass(val type:String,
                                   var mark:Int,
                                   var cost:Any,
                                   var text:String,
-                                  var InformationForApplication:String)
+                                  var informationForApplication:ArrayList<LatLng>,
+                                  var point:ArrayList<Double>  )
 
 val ExcursionExampleJson="""{
   "type": "excursion",

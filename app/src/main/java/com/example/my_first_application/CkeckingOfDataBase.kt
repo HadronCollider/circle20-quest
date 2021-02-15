@@ -21,30 +21,6 @@ class CkeckingOfDataBase : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ckecking_of_data_base)
-        //val database = FirebaseDatabase.getInstance()
-        //val myRef = database.getReference("test")
-
-
-        //button9.setOnClickListener {
-            //var textOf =findViewById<TextView>(R.id.editTextTextPersonName)
-            //var text=textOf.getText().toString()
-            //myRef.setValue(text)
-        //}
-
-
-        //myRef.addValueEventListener(object : ValueEventListener {
-            //override fun onDataChange(dataSnapshot: DataSnapshot) {
-                //val value = dataSnapshot.getValue()
-               // Log.d("Tag", "value is: $value")
-               // var name = findViewById<TextView>(R.id.textView3)
-                //name.text = "${value}"
-            //}
-
-            //override fun onCancelled(error: DatabaseError) {
-                //Log.w("tag", "Failed to read value.", error.toException())
-
-            //}
-        //})
 
         val database2 = FirebaseFirestore.getInstance()
         val storage = Firebase.storage
@@ -58,22 +34,14 @@ class CkeckingOfDataBase : AppCompatActivity() {
                     if (task.isSuccessful) {
                             val test= task.result.data
                         if (test != null) {
-                            for (i in test){
-                                if (i.key=="name") testExcursion.name=i.value.toString()
-                                if (i.key=="cost") testExcursion.cost=i.value
-                                if (i.key=="discription") name.text="${i.value}"
+
+                                testExcursion.name=test["name"].toString()
 
 
-                            }
                         }
                         }
 
                 }
-
-        //val got = mapOf(getting)
-
-
-
 
         //db.collection("testing")
           //      .get()
@@ -86,9 +54,6 @@ class CkeckingOfDataBase : AppCompatActivity() {
                         //        name.text="${i}"
                           //  }
                         //}
-                    //} else {
-                      //  Log.w(TAG, "Error getting documents.", task.exception)
-                    //}
                 //}
 
         fun amIConnected(): Boolean {

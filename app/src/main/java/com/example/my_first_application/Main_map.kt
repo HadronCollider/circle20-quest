@@ -9,6 +9,7 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -17,10 +18,9 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.Polygon
-import com.google.android.gms.maps.model.PolygonOptions
+import com.google.android.gms.maps.model.*
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main_map.*
 
 
@@ -56,9 +56,7 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
             override fun onLocationResult(locationResult: LocationResult?) {
                 println("locationCallback")
                 locationResult ?: return
-                for (location in locationResult.locations){
-                    Toast.makeText(this@Main_map, "cicle: $location", Toast.LENGTH_SHORT).show()
-                }
+
             }
         }
 
@@ -66,6 +64,23 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
         mLocationRequest.interval = 5000
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         mLocationRequest.fastestInterval = 3000
+
+        //firestore on
+        val db = Firebase.firestore
+        val getting=db.collection("testing").document("excursionTest")
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val test = task.result.data
+                        if (test != null) {
+
+                            //testExcursion.informationForApplication = test["Latlng1"] as ArrayList<LatLng>
+                            testExcursion.point=test["point"] as ArrayList<Double>
+
+
+                        }
+                    }
+                }
 
 
 
@@ -94,11 +109,6 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
         ) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return
         }
         fusedLocationClient.requestLocationUpdates(
@@ -120,7 +130,7 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
             return
         }
 
-        val SPB = LatLng(59.57, 30.19)
+        val SPB = LatLng(59.849479, 30.174983)
         mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
         map.isMyLocationEnabled = true
@@ -128,12 +138,7 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this)
 
-        fusedLocationClient.lastLocation
-                .addOnSuccessListener { location: Location? ->
-                    Log.d("TESTEST", "$location")
-                    Toast.makeText(this, "Loc $location", Toast.LENGTH_LONG).show()
-                    // Got last known location. In some rare situations this can be null.
-                }
+
 
         startLocationUpdates()
     }
@@ -154,27 +159,27 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
         }
         else {
             val spb = Location("")
-            spb.latitude = 59.57
-            spb.longitude = 30.19
+            spb.latitude = testExcursion.point[0]
+            spb.longitude = testExcursion.point[0]
+            val builder = LatLngBounds.Builder()
+            for (el in arrayOf(LatLng(59.847273, 30.175564), LatLng(59.857496, 30.176259), LatLng(59.852353, 30.199333), LatLng(59.846804, 30.197193)))//testExcursion.informationForApplication)
+             {
+                builder.include(el)
+            }
+            val bounds = builder.build()
             val loc = fusedLocationClient.lastLocation.addOnSuccessListener { res_loc: Location? ->
                 if (res_loc != null) {
                     Toast.makeText(this, "Rasstoyanie is ${res_loc.distanceTo(spb) / 1000} km", Toast.LENGTH_LONG).show()
+                    val my_loc = LatLng(res_loc.latitude, res_loc.longitude)
+                    val res = bounds.contains(my_loc)
+                    Toast.makeText(this, "$res", Toast.LENGTH_LONG).show()
                 }
             }
         }
 
 
     }
-    //val  triangleCoords = arrayListOf(
-    // [25.774, 80.19],
-    //[18.466, 66.118],
-    //[32.321, 64.757])
 
-    // val quadro= Polygon(triangleCoords)
-    //val polygon = Polygon(PolygonOptions()
-            //.add(LatLng(0.0,0.0), LatLng(0.0, 60.0), LatLng(60.0, 0.0), LatLng(60.0, 60.0))
-            //.strokeColor(Color.RED)
-            //.fillColor(Color.BLUE))
 
 
     //if press on button in top right corner
@@ -193,13 +198,20 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
         }
         else {//
             val spb = Location("")
-            spb.latitude = 59.57
-            spb.longitude = 30.19
+            spb.latitude = testExcursion.point[0]
+            spb.longitude = testExcursion.point[1]
+            val builder = LatLngBounds.Builder()
+            for (el in arrayOf(LatLng(59.847273, 30.175564), LatLng(59.857496, 30.176259), LatLng(59.852353, 30.199333), LatLng(59.846804, 30.197193)))//testExcursion.informationForApplication)
+            {
+                builder.include(el)
+            }
+            val bounds = builder.build()
             val loc = fusedLocationClient.lastLocation.addOnSuccessListener { res_loc: Location? ->
                 if (res_loc != null) {
                     Toast.makeText(this, "Rasstoyanie is ${res_loc.distanceTo(spb) / 1000} km", Toast.LENGTH_LONG).show()
-                    //if (containsLocation(res_loc.longitude, res_loc.latitude, polygon)) Toast.makeText(this, "You are in polygon", Toast.LENGTH_LONG).show()
-                    //else Toast.makeText(this, "You arent in polygon", Toast.LENGTH_LONG).show()
+                    val my_loc = LatLng(res_loc.latitude, res_loc.longitude)
+                    val res = bounds.contains(my_loc)
+                    Toast.makeText(this, "$res", Toast.LENGTH_LONG).show()
                 }
             }
         }
