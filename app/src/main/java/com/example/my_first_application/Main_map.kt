@@ -19,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main_map.*
@@ -66,21 +67,24 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
         mLocationRequest.fastestInterval = 3000
 
         //firestore on
-        val db = Firebase.firestore
-        val getting=db.collection("testing").document("excursionTest")
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val test = task.result.data
-                        if (test != null) {
+        //val db = Firebase.firestore
+        //val getting=db.collection("testing").document("excursionTest")
+                //.get()
+                //.addOnCompleteListener { task ->
+                   // if (task.isSuccessful) {
+                       // val test = task.result.data
+                      //  if (test != null) {
+                       //     val lst = test["Latlng1"] as ArrayList<GeoPoint>
+                           // testExcursion.informationForApplication=lst.map { LatLng(it.latitude, it.longitude) }.toCollection(ArrayList())
 
                             //testExcursion.informationForApplication = test["Latlng1"] as ArrayList<LatLng>
-                            testExcursion.point=test["point"] as ArrayList<Double>
+                           // testExcursion.point=test["point"] as ArrayList<Double>
 
 
-                        }
-                    }
-                }
+
+                        //}
+                   // }
+                //}
 
 
 
@@ -118,7 +122,7 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
         )
     }
 
-
+    var i=0
     override fun onMapReady(map: GoogleMap) {
         Log.d("TESTEST", "tetette")
         mMap = map
@@ -130,9 +134,25 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
             return
         }
 
-        val SPB = LatLng(59.849479, 30.174983)
+        val SPB = LatLng(testExcursion.point[i][0], testExcursion.point[i][1])
         mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
+        button11.setOnClickListener {
+            i-=1
+            mMap.clear()
+            val SPB = LatLng(testExcursion.point[i][0], testExcursion.point[i][1])
+            mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
+
+        }
+        button13.setOnClickListener {
+            i+=1
+            mMap.clear()
+            val SPB = LatLng(testExcursion.point[i][0], testExcursion.point[i][1])
+            mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
+        }
+
         map.isMyLocationEnabled = true
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
@@ -159,12 +179,13 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
         }
         else {
             val spb = Location("")
-            spb.latitude = testExcursion.point[0]
-            spb.longitude = testExcursion.point[0]
+            spb.latitude = testExcursion.point[i][0]
+            spb.longitude = testExcursion.point[i][0]
             val builder = LatLngBounds.Builder()
-            for (el in arrayOf(LatLng(59.847273, 30.175564), LatLng(59.857496, 30.176259), LatLng(59.852353, 30.199333), LatLng(59.846804, 30.197193)))//testExcursion.informationForApplication)
+
+            for (el in testExcursion.informationForApplication[i])
              {
-                builder.include(el)
+                builder.include(LatLng(el[0], el[1]))
             }
             val bounds = builder.build()
             val loc = fusedLocationClient.lastLocation.addOnSuccessListener { res_loc: Location? ->
@@ -198,12 +219,12 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
         }
         else {//
             val spb = Location("")
-            spb.latitude = testExcursion.point[0]
-            spb.longitude = testExcursion.point[1]
+            spb.latitude = testExcursion.point[i][0]
+            spb.longitude = testExcursion.point[i][1]
             val builder = LatLngBounds.Builder()
-            for (el in arrayOf(LatLng(59.847273, 30.175564), LatLng(59.857496, 30.176259), LatLng(59.852353, 30.199333), LatLng(59.846804, 30.197193)))//testExcursion.informationForApplication)
+            for (el in testExcursion.informationForApplication[i])
             {
-                builder.include(el)
+                builder.include(LatLng(el[0], el[1]))
             }
             val bounds = builder.build()
             val loc = fusedLocationClient.lastLocation.addOnSuccessListener { res_loc: Location? ->
