@@ -28,20 +28,20 @@ class CkeckingOfDataBase : AppCompatActivity() {
         val db = Firebase.firestore
         var name = findViewById<TextView>(R.id.textView3)
         //name.text = "${getting}"
-        val getting=db.collection("testing").document("TestExcursion1")
-                .get()
-                .addOnCompleteListener{ task ->
-                    if (task.isSuccessful) {
-                            val test= task.result.data
-                        if (test != null) {
+       // val getting=db.collection("testing").document("TestExcursion1")
+              //  .get()
+               // .addOnCompleteListener{ task ->
+                    //if (task.isSuccessful) {
+                           // val test= task.result.data
+                        //if (test != null) {
 
-                                testExcursion.name=test["name"].toString()
+                               // testExcursion.name=test["name"].toString()
 
 
-                        }
-                        }
+                        //}
+                        //}
 
-                }
+                //}
 
         //db.collection("testing")
           //      .get()

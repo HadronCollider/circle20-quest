@@ -37,7 +37,9 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_map)
         Log.d("TESTEST", "onCreate")
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -68,40 +70,41 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
 
         //firestore on
         val db = Firebase.firestore
-       // val getting=db.collection("testing").document("referenceToLocations")
-               // .get()
-                //.addOnCompleteListener { task ->
-                   // if (task.isSuccessful) {
-                       // val test = task.result.data
-                        //if (test != null) {
-                            //val lst = test["firstExcursion"] as Array<>
-                            //for (i in test){
-                                //
-                            //}
-                            //testExcursion.informationForApplication=lst.map { LatLng(it.latitude, it.longitude) }.toCollection(Array())
-
-                            //testExcursion.informationForApplication = test["Latlng1"] as ArrayList<LatLng>
-                           //
-                        //}
-                    //}
-                //}
-
-        db.collection("testing").document("geopoints")
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val test = task.result.data
-                        if (test != null) {
-                            val lst = test["FirstExcursion"] as Array<GeoPoint>
-                           //testExcursion.informationForApplication=lst.map { LatLng(it.latitude, it.longitude) }
-
-                            //testExcursion.informationForApplication = test["Latlng1"] as ArrayList<LatLng>
-                            testExcursion.point=lst.map { LatLng(it.latitude, it.longitude) }.toTypedArray()
+        val getting=db.collection("Quests").document("Test2")
+        .get()
+        .addOnCompleteListener { task ->
+         if (task.isSuccessful) {
+         val test = task.result.data
+         if (test != null) {
+             val lst = test["geopoints"] as ArrayList<GeoPoint>
+             testQuest.point=lst.map { LatLng(it.latitude, it.longitude) }.toTypedArray()
+             val referenc= test["referenceToLocations"] as String
+             db.collection("locations").document("$referenc")
+                     .get()
+                     .addOnCompleteListener { task2 ->
+                         if (task2.isSuccessful) {
+                             val test2 = task2.result.data
+                             if (test2 != null) {
+                               //  val lst2:MutableList<ArrayList<GeoPoint>> = listOf()
+                               //  for (j in 0..test2.size-1){
+                                 //    lst2.add(test["$j"] as ArrayList<GeoPoint>)
+                                // }
 
 
-                        }
-                    }
-                }
+                             }    }                         }
+             //testQuest.riddles=test["riddles"] as Array<String>
+             //testQuest.helps=test["help"] as Array<String>
+        //testExcursion.informationForApplication = test["Latlng1"] as ArrayList<LatLng>
+        // testExcursion.point=test["point"] as ArrayList<Double>
+
+
+
+        }
+         }
+        }
+
+
+
     }
     fun amIConnected(): Boolean {
         val connectivityManager = this.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -130,13 +133,13 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
             return
         }
         else{
-        fusedLocationClient.requestLocationUpdates(
-                mLocationRequest,
-                locationCallback,
-                Looper.getMainLooper()
-        )}
+            fusedLocationClient.requestLocationUpdates(
+                    mLocationRequest,
+                    locationCallback,
+                    Looper.getMainLooper()
+            )}
     }
-
+//    var textof=findViewById<TextView>(R.id.nameMap)
     var i=0
     override fun onMapReady(map: GoogleMap) {
         Log.d("TESTEST", "tetette")
@@ -148,35 +151,15 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
                 ) != PackageManager.PERMISSION_GRANTED) {
             return
         }
-
-        val SPB = testExcursion.point[i]//LatLng(testExcursion.point[i][0], testExcursion.point[i][1])
+       // textof.text="Riddle #${i+1}"
+        val SPB = testQuest.point[i]
         mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
         button11.setOnClickListener {
             if (i== 0) {
-                i=testExcursion.point.size-1
+                i= testQuest.point.size-1
                 mMap.clear()
-                val SPB = testExcursion.point[i]//val SPB = LatLng(testExcursion.point[i][0], testExcursion.point[i][1])
-                mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
-
-            }
-            else{
-                i-=1
-                mMap.clear()
-                val SPB = testExcursion.point[i]//val SPB = LatLng(testExcursion.point[i][0], testExcursion.point[i][1])
-                mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
-
-            }
-            progressBar.progress=(((i+1)*100/ testExcursion.point.size)).toInt()
-
-        }
-        button13.setOnClickListener {
-            if (i== testExcursion.point.size-1) {
-                i=0
-                mMap.clear()
-                val SPB = testExcursion.point[i]//val SPB = LatLng(testExcursion.point[i][0], testExcursion.point[i][1])
+                val SPB = testQuest.point[i]
                 mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
 
@@ -184,11 +167,31 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
             else{
                 i+=1
                 mMap.clear()
-                val SPB = testExcursion.point[i]//val SPB = LatLng(testExcursion.point[i][0], testExcursion.point[i][1])
+                val SPB = testQuest.point[i]
+                mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
+
+            }
+            progressBar.progress=(((i+1)*100/ testQuest.point.size)).toInt()
+
+        }
+        button13.setOnClickListener {
+            if (i== testQuest.point.size-1) {
+                i=0
+                mMap.clear()
+                val SPB = testQuest.point[i]
+                mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
+
+            }
+            else{
+                i+=1
+                mMap.clear()
+                val SPB = testQuest.point[i]
                 mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
             }
-            progressBar.progress=(((i+1)*100/ testExcursion.point.size)).toInt()
+            progressBar.progress=(((i+1)*100/ testQuest.point.size)).toInt()
 
         }
 
@@ -218,38 +221,37 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
         }
         else {
             var spb = Location("")
-            spb.latitude = testExcursion.point[i].latitude
-            spb.longitude = testExcursion.point[i].longitude
-           // val builder = LatLngBounds.Builder()
+            spb.latitude = testQuest.point[i].latitude
+            spb.longitude = testQuest.point[i].longitude
+            //val builder = LatLngBounds.Builder()
 
             //for (el in testExcursion.informationForApplication[i])
-             //{
-                //builder.include(LatLng(el[0], el[1]))
+           // {
+               // builder.include(LatLng(el[0], el[1]))
            // }
-           // val bounds = builder.build()
+            //val bounds = builder.build()
             val loc = fusedLocationClient.lastLocation.addOnSuccessListener { res_loc: Location? ->
                 if (res_loc != null) {
                     Toast.makeText(this, "Rasstoyanie is ${res_loc.distanceTo(spb) / 1000} km", Toast.LENGTH_LONG).show()
-                    val my_loc = LatLng(res_loc.latitude, res_loc.longitude)
+                    //val my_loc = LatLng(res_loc.latitude, res_loc.longitude)
                     //val res = bounds.contains(my_loc)
-                    //if (res) {
-                      // Toast.makeText(this, "you guessed the place", Toast.LENGTH_LONG).show()
-                       // if (i== testExcursion.point.size-1) {
-                            //i=0
+                   // if (res) {
+                      //  Toast.makeText(this, "you guessed the place", Toast.LENGTH_LONG).show()
+                        //if (i== testQuest.point.size-1) {
+                           // i=0
                            // mMap.clear()
-                           // val SPB = LatLng(testExcursion.point[i][0], testExcursion.point[i][1])
+                           // val SPB = testQuest.point[i]
+                            //mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
+                            //mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
+                        //}
+                      //  else{
+                           // i+=1
+                          //  mMap.clear()
+                          //  val SPB = testQuest.point[i]
                            // mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
                           //  mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
-
-                        //}
-                       // else{
-                           // i+=1
-                           // mMap.clear()
-                           // val SPB = LatLng(testExcursion.point[i][0], testExcursion.point[i][1])
-                           // mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
-                           // mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
-                        //}//
-                       // progressBar.progress=(((i+1)*100/ testExcursion.point.size)).toInt()
+                       // }
+                       // progressBar.progress=(((i+1)*100/ testQuest.point.size)).toInt()
                    // }
                    // else Toast.makeText(this, "you don't guesse the place", Toast.LENGTH_LONG).show()
                 }
@@ -277,43 +279,46 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
         }
         else {//
             var spb = Location("")
-            spb.latitude = testExcursion.point[i].latitude
-            spb.longitude = testExcursion.point[i].longitude
+            spb.latitude = testQuest.point[i].latitude
+            spb.longitude = testQuest.point[i].longitude
            // val builder = LatLngBounds.Builder()
            // for (el in testExcursion.informationForApplication[i])
-           // {
+          //  {
            //     builder.include(LatLng(el[0], el[1]))
            // }
-            //val bounds = builder.build()
+         //   val bounds = builder.build()
             val loc = fusedLocationClient.lastLocation.addOnSuccessListener { res_loc: Location? ->
                 if (res_loc != null) {
                     Toast.makeText(this, "Rasstoyanie is ${res_loc.distanceTo(spb) / 1000} km", Toast.LENGTH_LONG).show()
-                    val my_loc = LatLng(res_loc.latitude, res_loc.longitude)
+                    Log.d("Location", res_loc.toString())
+                  //  val my_loc = LatLng(res_loc.latitude, res_loc.longitude)
                   //  val res = bounds.contains(my_loc)
-                  //  if (res) {
-                    //    Toast.makeText(this, "you guessed the place", Toast.LENGTH_LONG).show()
-                      //  if (i== testExcursion.point.size-1) {
-                       //     i=0
-                         //   mMap.clear()
-                         //   val SPB = LatLng(testExcursion.point[i][0], testExcursion.point[i][1])
+                 //   if (res) {
+                       // Toast.makeText(this, "you guessed the place", Toast.LENGTH_LONG).show()
+                      //  if (i== testQuest.point.size-1) {
+                        //    i=0
+                        //    mMap.clear()
+                        //    val SPB = testQuest.point[i]
                         //    mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
-                         //   mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
+                        //    mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
 
                       //  }
                        // else{
                          //   i+=1
-                         //   mMap.clear()
-                         //   val SPB = LatLng(testExcursion.point[i][0], testExcursion.point[i][1])
-                        //    mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
-                       //    mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
+                        //    mMap.clear()
+                        //    val SPB = testQuest.point[i]
+                       //     mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
+                        //    mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
                        // }
-                       // progressBar.progress=(((i+1)*100/ testExcursion.point.size)).toInt()
+                       // progressBar.progress=(((i+1)*100/ testQuest.point.size)).toInt()
                    // }
-                    //else Toast.makeText(this, "you don't guesse the place", Toast.LENGTH_LONG).show()
+                  //  else Toast.makeText(this, "you don't guesse the place", Toast.LENGTH_LONG).show()
                 }
             }
         }
         return false
     }
-}
 
+
+
+}

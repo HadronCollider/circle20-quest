@@ -18,9 +18,9 @@ class ChoiseOfQuest : AppCompatActivity() {
         mark.text="${testQuest.mark}"
         var text=findViewById<TextView>(R.id.Short_Discription)
         text.text="${testQuest.text}"
-        button10.setOnClickListener {
-            val intent = Intent(this, Main_map::class.java)
-            startActivity(intent)
-        }
+        //button10.setOnClickListener {
+            //val intent = Intent(this, Main_map::class.java)
+            //startActivity(intent)
+        //}
     }
 }
