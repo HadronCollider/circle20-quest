@@ -11,7 +11,8 @@ data class TestQuestDataClass(val id:Int=0,//choise
                               var text:String="klh",//choise
                               var riddles:Array<String> = arrayOf("a"),//map
                               var helps:Array<String> = arrayOf("a"),//map
-                              var point:Array<LatLng> = arrayOf(LatLng(59.0, 80.0)))//map
+                              var point:Array<LatLng> = arrayOf(LatLng(59.0, 80.0)),//map
+                              var locations:Array<Array<LatLng>> = arrayOf(arrayOf(LatLng(59.0, 80.0))))
 
 //val QuestExampleJson="""{
   //"type": "quest",
