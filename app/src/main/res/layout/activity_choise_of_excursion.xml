@@ -39,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/Name"
+            android:id="@+id/Nameq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="100dp"
@@ -59,11 +59,11 @@
             android:layout_marginEnd="129dp"
             android:text="Mark:"
             android:textSize="24sp"
-            app:layout_constraintEnd_toStartOf="@+id/MarkValue"
-            app:layout_constraintTop_toBottomOf="@+id/Name" />
+            app:layout_constraintEnd_toStartOf="@+id/MarkValueq"
+            app:layout_constraintTop_toBottomOf="@+id/Nameq" />
 
         <TextView
-            android:id="@+id/MarkValue"
+            android:id="@+id/MarkValueq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
@@ -71,7 +71,7 @@
             android:text="@string/value_of_mark_excursion"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Name" />
+            app:layout_constraintTop_toBottomOf="@+id/Nameq" />
 
         <TextView
             android:id="@+id/Cost"
@@ -82,7 +82,7 @@
             android:layout_marginBottom="14dp"
             android:text="Cost:"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/Short_Discription"
+            app:layout_constraintBottom_toTopOf="@+id/Short_Discriptionq"
             app:layout_constraintEnd_toStartOf="@+id/CostValue"
             app:layout_constraintTop_toBottomOf="@+id/Mark" />
 
@@ -95,10 +95,10 @@
             android:text="@string/cost_of_excursion"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/MarkValue" />
+            app:layout_constraintTop_toBottomOf="@+id/MarkValueq" />
 
         <TextView
-            android:id="@+id/Short_Discription"
+            android:id="@+id/Short_Discriptionq"
             android:layout_width="298dp"
             android:layout_height="100dp"
             android:layout_marginStart="1dp"

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.my_first_application">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -18,9 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.My_first_application">
-        <activity android:name=".CkeckingOfDataBase"></activity>
-        <activity android:name=".ChoiseOfQuest" />
-        <activity android:name=".choise_of_excursion" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -34,7 +33,13 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Main_map"
+            android:name=".QuestMap"
+            android:label="@string/title_activity_quest_map"></activity>
+        <activity android:name=".CkeckingOfDataBase" />
+        <activity android:name=".ChoiseOfQuest" />
+        <activity android:name=".choise_of_excursion" />
+        <activity
+            android:name=".ExcursionMap"
             android:label="@string/title_activity_main_map" />
         <activity android:name=".quest_choise_go_or_make" />
         <activity android:name=".excursion_choise_go_or_make" />

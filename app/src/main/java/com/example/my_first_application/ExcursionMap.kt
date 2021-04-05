@@ -22,10 +22,10 @@ import com.google.android.gms.maps.model.*
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_main_map.*
+import kotlinx.android.synthetic.main.activity_ExcursionMap.*
 
 
-class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationClickListener, GoogleMap.OnMyLocationButtonClickListener {
+class ExcursionMap : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationClickListener, GoogleMap.OnMyLocationButtonClickListener {
 
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -35,7 +35,7 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_map)
+        setContentView(R.layout.activity_ExcursionMap)
         Log.d("TESTEST", "onCreate")
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -155,7 +155,7 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
                 val SPB = testQuest.point[i]
                 mMap.addMarker(MarkerOptions().position(SPB).title("Marker in SPB"))
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(SPB))
-                //val polyline1 = mMap.addPolyline(PolylineOptions().add( for(j in testQuest.locations[i])))
+                val polyline1 = mMap.addPolyline(PolylineOptions().addAll( testQuest.locations[i].asIterable()))
             }
             progressBar.progress=(((i+1)*100/ testQuest.point.size)).toInt()
 

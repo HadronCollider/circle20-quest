@@ -15,4 +15,5 @@
     <string name="go_this_excursion">Go this excursion</string>
     <string name="go_this_quest">Go this quest</string>
     <string name="testDataBase">empty</string>
+    <string name="title_activity_quest_map">Map</string>
 </resources>
