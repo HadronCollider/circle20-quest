@@ -19,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -67,6 +68,11 @@ class Main_map : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocation
         mLocationRequest.interval = 5000
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         mLocationRequest.fastestInterval = 3000
+        var bottom_sheet=BottomSheetDialogFragment()
+        button12.setOnClickListener {
+            bottom_sheet.show(supportFragmentManager, "BottomSheets")
+        }
+
 
     }
     fun amIConnected(): Boolean {
